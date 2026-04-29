@@ -5,7 +5,8 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue?logo=postgresql)
 ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-3-orange?logo=rabbitmq)
 ![Docker](https://img.shields.io/badge/Docker-Compose-blue?logo=docker)
-
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-CI%2FCD-2088FF?logo=github-actions)
+![Railway](https://img.shields.io/badge/Railway-Cloud_Deploy-0B0D0E?logo=railway)
 > **ℹ️ Nota do Desenvolvedor:** Este projeto foi desenvolvido com fins educacionais. O objetivo é demonstrar a aplicação de padrões de arquitetura de microserviços, boas práticas de engenharia de software e resolução de problemas complexos em sistemas distribuídos (como concorrência e resiliência).
 
 Parte do ecossistema **Cinema Microservices**, o `booking-service` é o microserviço responsável por gerenciar o mapa de assentos, receber as intenções de reserva dos clientes e iniciar o fluxo assíncrono de compra. Veja também o serviço parceiro: [`payment-service`](../paymentservice).
@@ -22,6 +23,8 @@ Parte do ecossistema **Cinema Microservices**, o `booking-service` é o microser
 | 🐇 **RabbitMQ** | Backbone da comunicação assíncrona entre `booking-service` e `payment-service`. | Exchanges, filas (Queues), consumers, Dead-Letter Queue, desacoplamento produtor/consumidor. |
 | 🧩 **Microserviços** | Arquitetura distribuída com responsabilidades bem delimitadas por serviço. | Database-per-Service, Event-Driven Architecture, contratos de mensageria via DTOs, resiliência transacional. |
 | 🧪 **Testes Automatizados** | Garantia de qualidade do software e funcionamento isolado. | Testes Unitários (Mockito), Testes de Slice Web (MockMvc), Banco em memória (H2), Cobertura de regras de negócio. |
+| 🤖 **CI/CD (GitHub Actions)** | Automação da esteira de integração contínua. | Actions trigam a cada *push*, rodando os testes e buildando a imagem Docker automaticamente. |
+| ☁️ **Deploy em Nuvem (Railway)** | Hospedagem em produção do microserviço. | Provisionamento de Postgres e RabbitMQ em nuvem, variáveis de ambiente seguras, *Continuous Deployment* (CD) integrado ao GitHub, Imagem Otimizada com Docker Multi-stage Build. |
 
 ---
 
@@ -50,6 +53,14 @@ graph TD
 | Flyway |   | Migrations e seed de assentos |
 | RabbitMQ | 3 | Mensageria assíncrona |
 | Docker & Compose |   | Orquestração da infraestrutura local |
+
+## ☁️ CI/CD & Deploy na Nuvem (Railway)
+
+Este microserviço está configurado com uma esteira completa de **Integração e Entrega Contínuas (CI/CD)**:
+
+1. **Testes e Build:** Ao realizar um `push` na branch `main`, o **GitHub Actions** (`ci.yml`) assume o controle. Ele roda toda a suíte de testes automatizados e constrói a imagem da aplicação.
+2. **Otimização (Docker Multi-stage):** O `Dockerfile` do projeto foi desenhado com o padrão *Multi-stage Build*, que separa o ambiente pesado de compilação (Maven+JDK) do ambiente levíssimo de execução (JRE), resultando em uma imagem minúscula, segura e rápida.
+3. **Deploy (Railway):** O Railway monitora o repositório e, após o sucesso da pipeline, realiza o pull do código, monta a imagem Docker e sobe o servidor. O banco de dados PostgreSQL e o RabbitMQ também estão hospedados na mesma infraestrutura de nuvem, conectados via variáveis de ambiente.
 
 ## ⚙️ Como Executar Localmente
 
