@@ -6,7 +6,7 @@
 ![RabbitMQ](https://img.shields.io/badge/RabbitMQ-3-orange?logo=rabbitmq)
 ![Docker](https://img.shields.io/badge/Docker-Compose-blue?logo=docker)
 
-> **ℹ️ Nota do Desenvolvedor:** Este projeto foi desenvolvido com fins educacionais e para composição de portfólio. O objetivo é demonstrar a aplicação de padrões de arquitetura de microserviços, boas práticas de engenharia de software e resolução de problemas complexos em sistemas distribuídos (como concorrência e resiliência).
+> **ℹ️ Nota do Desenvolvedor:** Este projeto foi desenvolvido com fins educacionais. O objetivo é demonstrar a aplicação de padrões de arquitetura de microserviços, boas práticas de engenharia de software e resolução de problemas complexos em sistemas distribuídos (como concorrência e resiliência).
 
 Parte do ecossistema **Cinema Microservices**, o `booking-service` é o microserviço responsável por gerenciar o mapa de assentos, receber as intenções de reserva dos clientes e iniciar o fluxo assíncrono de compra. Veja também o serviço parceiro: [`payment-service`](../paymentservice).
 
