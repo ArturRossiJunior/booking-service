@@ -32,12 +32,12 @@ Este serviço atua como o ponto de entrada principal para as compras. Ele **não
 ```mermaid
 graph TD
     Client((Cliente HTTP)) -->|POST /api/reservas| BookingService
-    BookingService -->|1. Salva reserva com status PENDENTE| BookingDB[(Booking DB)]
+    BookingService -->|1. Bloqueia assento 'ocupado=true'| BookingDB[(Booking DB)]
     BookingService -->|2. Publica evento na fila| Q1[RabbitMQ: pagamentos.fila]
     Q1 -.->|Consumido por| PaymentService((Payment Service))
     PaymentService -.->|Publica resultado na fila| Q2[RabbitMQ: reservas.fila]
     Q2 -->|3. Consome confirmação| BookingService
-    BookingService -->|4. Atualiza status do assento| BookingDB
+    BookingService -->|4. Libera assento se pagto recusado| BookingDB
 ```
 
 ## 🚀 Tecnologias Utilizadas
