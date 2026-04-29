@@ -1,0 +1,42 @@
+name: cinema
+version: '3.8'
+services:
+
+  postgres-booking:
+    image: postgres:15-alpine
+    container_name: booking-db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: booking_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - booking_data:/var/lib/postgresql/data
+
+  postgres-payment:
+    image: postgres:15-alpine
+    container_name: payment-db
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: payment_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - payment_data:/var/lib/postgresql/data
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  booking_data:
+  payment_data:
