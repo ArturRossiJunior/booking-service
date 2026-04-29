@@ -62,6 +62,20 @@ Este microserviço está configurado com uma esteira completa de **Integração 
 2. **Otimização (Docker Multi-stage):** O `Dockerfile` do projeto foi desenhado com o padrão *Multi-stage Build*, que separa o ambiente pesado de compilação (Maven+JDK) do ambiente levíssimo de execução (JRE), resultando em uma imagem minúscula, segura e rápida.
 3. **Deploy (Railway):** O Railway monitora o repositório e, após o sucesso da pipeline, realiza o pull do código, monta a imagem Docker e sobe o servidor. O banco de dados PostgreSQL e o RabbitMQ também estão hospedados na mesma infraestrutura de nuvem, conectados via variáveis de ambiente.
 
+### 🌐 Teste a API em Produção
+
+A API está no ar e pronta para receber requisições de teste. Sinta-se à vontade para disparar uma reserva!
+
+**URL Base:** `https://booking-service-production-412d.up.railway.app`
+
+**Exemplo de Requisição (POST `/api/reservas`):**
+```bash
+curl -X POST https://booking-service-production-412d.up.railway.app/api/reservas \
+-H "Content-Type: application/json" \
+-d '{"assentoId": 15, "usuarioId": 99, "metodo": "PIX"}'
+```
+> Tente enviar com o método "CARTAO" e um valor que ultrapasse o limite de R$ 30,00 para ver o `payment-service` recusando a transação em background e liberando o assento segundos depois!
+
 ## ⚙️ Como Executar Localmente
 
 ### 1. Pré-requisitos
